@@ -1,0 +1,74 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
+        <item name="colorAccent">@color/yellow</item>
+    </style>
+
+    <style name="Toolbar" parent="AppTheme">
+        <item name="android:id">@id/tb</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="Toolbar.WhiteText" parent="Toolbar">
+        <item name="android:theme">@style/Toolbar.WhiteText</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+    </style>
+
+    <style name="FloatingActionButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="useCompatPadding">true</item>
+    </style>
+
+    <style name="FloatingActionButton.Green" parent="FloatingActionButton">
+        <item name="colorAccent">@android:color/holo_green_dark</item>
+        <item name="android:theme">@style/FloatingActionButton.Green</item>
+    </style>
+
+    <style name="RecyclerView">
+        <item name="android:clipToPadding">false</item>
+        <item name="android:id">@id/rv</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+
+    <!--EditText-->
+    <style name="EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="EditText.AddItem" parent="EditText">
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/gray_txt</item>
+        <item name="backgroundTint">@color/gray_et_line</item>
+        <item name="colorAccent">@color/blue</item>
+        <item name="android:theme">@style/EditText.AddItem</item>
+    </style>
+
+
+
+    <!--TextInputLayouts-->
+    <style name="TextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="TextInputLayout.AddItem" parent="TextInputLayout">
+        <item name="android:textColorHint">@color/gray_txt</item>
+        <item name="hintTextAppearance">@style/TextInputLayoutTextAppearance</item>
+    </style>
+
+    <style name="TextInputLayoutTextAppearance" parent="TextAppearance.Design.Hint">
+        <item name="android:textColor">@color/gray_txt</item>
+    </style>
+
+
+</resources>
