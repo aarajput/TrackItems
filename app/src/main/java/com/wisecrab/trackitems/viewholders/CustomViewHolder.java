@@ -1,4 +1,4 @@
-package com.wisecrab.trackitems.customclasses;
+package com.wisecrab.trackitems.viewholders;
 
 
 import android.support.annotation.LayoutRes;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public abstract class CustomViewHolder extends RecyclerView.ViewHolder {
+public abstract class CustomViewHolder<T> extends RecyclerView.ViewHolder {
     public CustomViewHolder(View itemView) {
         super(itemView);
         init(itemView);
@@ -18,4 +18,5 @@ public abstract class CustomViewHolder extends RecyclerView.ViewHolder {
     }
 
     protected abstract void init(View view);
+    public abstract void bind(T data);
 }

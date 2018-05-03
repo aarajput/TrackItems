@@ -36,5 +36,6 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.github.yalantis:ucrop:2.2.1'
     implementation project(':pickphotos')
-    implementation 'com.squareup.picasso:picasso:2.3.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 }

@@ -24,10 +24,12 @@ public class CustomEditText extends AppCompatEditText {
 
     public CustomEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(attrs);
     }
 
     public CustomEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(attrs);
     }
 
 
@@ -55,6 +57,14 @@ public class CustomEditText extends AppCompatEditText {
         return null;
     }
 
+    @Override
+    public void setError(CharSequence error) {
+        if (getTextInputLayout()==null)
+            super.setError(error);
+        else
+            getTextInputLayout().setError(error);
+    }
+
     private class TextChangerListener implements TextWatcher {
 
         @Override
@@ -73,5 +83,4 @@ public class CustomEditText extends AppCompatEditText {
                 getTextInputLayout().setError(null);
         }
     }
-
 }
