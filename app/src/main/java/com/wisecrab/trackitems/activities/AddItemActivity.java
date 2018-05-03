@@ -44,7 +44,7 @@ public class AddItemActivity extends CustomActivity implements ImageSelectorHelp
         this.showBackButton(true);
         ButterKnife.bind(this);
         imageSelectorHelper = new ImageSelectorHelper(this);
-
+        itemData = ItemData.load(ItemData.class,this.getIntent().getLongExtra(CommonConstants.ITEM_ID,-1));
         if (itemData==null)
             itemData = new ItemData();
     }
@@ -136,6 +136,8 @@ public class AddItemActivity extends CustomActivity implements ImageSelectorHelp
                     }catch (Exception e) {
                         etCost.setError("Invalid cost entered");
                     }
+                    if (itemData.getId()!=null)
+                        this.getLocalBroadcastManager().sendBroadcast(new Intent(CommonConstants.ACTION_REFRESH_ITEMS));
                     itemData.save();
                     Intent i = new Intent();
                     i.putExtra(CommonConstants.ITEM_ID,itemData.getId());

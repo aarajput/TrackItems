@@ -1,5 +1,7 @@
 package com.wisecrab.trackitems.viewholders;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -7,6 +9,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.wisecrab.trackitems.R;
+import com.wisecrab.trackitems.activities.ViewItemActivity;
+import com.wisecrab.trackitems.customclasses.CommonConstants;
 import com.wisecrab.trackitems.dataclasses.ItemData;
 
 import java.io.File;
@@ -37,5 +41,12 @@ public class ItemViewHolder extends CustomViewHolder<ItemData> {
 
         tvName.setText(data.getName());
         tvDesc.setText(data.getDescription());
+
+        itemView.setOnClickListener(v -> {
+            Intent i = new Intent(itemView.getContext(), ViewItemActivity.class);
+            i.putExtra(CommonConstants.ITEM_ID,data.getId());
+            ((Activity)itemView.getContext()).startActivityForResult(i,30);
+        });
     }
+
 }

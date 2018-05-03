@@ -13,4 +13,6 @@
     <string name="permission_camera_rational">We need permission to capture Image from Camera. Please go to settings and allow <b>Camera</b> permission</string>
     <string name="permission_storage_rational">We need permission to get Camera or Gallery Image of your device. Please go to settings and allow <b>Storage</b> permission</string>
     <string name="permission_location_rational">We need permission to get location your device. Please go to settings and allow <b>Location</b> permission</string>
+    <string name="title_activity_view_item">ViewItemActivity</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -54,7 +54,6 @@
     </style>
 
 
-
     <!--TextInputLayouts-->
     <style name="TextInputLayout" parent="Widget.Design.TextInputLayout">
         <item name="android:layout_width">match_parent</item>
