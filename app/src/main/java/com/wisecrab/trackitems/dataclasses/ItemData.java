@@ -13,6 +13,7 @@ public class ItemData extends Model{
     public final static String COL_IMAGE_PATH = "imagePath";
     public final static String COL_LOCATION = "location";
     public final static String COL_COST = "cost";
+    public final static String COL_IS_SYNC = "isSync";
 
     @Column(name = COL_NAME, notNull = true)
     private String name;
@@ -28,6 +29,9 @@ public class ItemData extends Model{
 
     @Column(name = COL_COST, notNull = true)
     private Float  cost;
+
+    @Column(name = COL_IS_SYNC, notNull = true)
+    private boolean  isSync;
 
     public String getName() {
         return name;
@@ -69,5 +73,14 @@ public class ItemData extends Model{
 
     public void setCost(float cost) {
         this.cost = cost;
+    }
+
+    public boolean isSync() {
+        return isSync;
+    }
+
+    public ItemData setSync(boolean sync) {
+        isSync = sync;
+        return this;
     }
 }

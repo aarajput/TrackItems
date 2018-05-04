@@ -11,9 +11,11 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.wisecrab.trackitems.R;
+import com.wisecrab.trackitems.application.CustomApplication;
 import com.wisecrab.trackitems.customclasses.CommonConstants;
 import com.wisecrab.trackitems.dataclasses.ItemData;
 import com.wisecrab.trackitems.helpers.ImageSelectorHelper;
+import com.wisecrab.trackitems.jobs.UploadItemsJob;
 
 import java.io.File;
 
@@ -136,9 +138,14 @@ public class AddItemActivity extends CustomActivity implements ImageSelectorHelp
                     }catch (Exception e) {
                         etCost.setError("Invalid cost entered");
                     }
+                    boolean startJob=false;
                     if (itemData.getId()!=null)
                         this.getLocalBroadcastManager().sendBroadcast(new Intent(CommonConstants.ACTION_REFRESH_ITEMS));
+                    else
+                        startJob = true;
                     itemData.save();
+                    if (startJob)
+                        ((CustomApplication)this.getApplicationContext()).getNetworkJobManager().add(new UploadItemsJob(this));
                     Intent i = new Intent();
                     i.putExtra(CommonConstants.ITEM_ID,itemData.getId());
                     this.setResult(RESULT_OK,i);

@@ -8,25 +8,37 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
+import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Select;
 import com.wisecrab.trackitems.R;
 import com.wisecrab.trackitems.adapters.ItemsRecyclerAdapter;
 import com.wisecrab.trackitems.customclasses.CommonConstants;
 import com.wisecrab.trackitems.dataclasses.ItemData;
+import com.wisecrab.trackitems.parser.ItemsParser;
+import com.wisecrab.trackitems.postboy.PostBoy;
+import com.wisecrab.trackitems.postboy.PostBoyException;
+import com.wisecrab.trackitems.postboy.PostBoyListener;
+import com.wisecrab.trackitems.postboy.RequestType;
+import com.wisecrab.trackitems.rest.WebUrls;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends CustomActivity {
+public class MainActivity extends CustomActivity implements PostBoyListener {
 
+    private static final String TAG = "MainActivity";
     @BindView(R.id.rv)
     RecyclerView rv;
     private ItemsRecyclerAdapter adb;
 
     private Receiver receiver = new Receiver();
+    private PostBoy pb;
 
     @Override
     protected int getContentViewId() {
@@ -40,11 +52,14 @@ public class MainActivity extends CustomActivity {
         adb = new ItemsRecyclerAdapter();
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adb);
+
+        pb = new PostBoy.Builder(this, RequestType.GET, WebUrls.BASE_URL+WebUrls.ITEMS).create();
     }
 
     @Override
     protected void assign(@Nullable Bundle savedInstanceState) {
         this.getLocalBroadcastManager().registerReceiver(receiver, new IntentFilter(CommonConstants.ACTION_REFRESH_ITEMS));
+        pb.setListener(this);
     }
 
     @Override
@@ -55,7 +70,10 @@ public class MainActivity extends CustomActivity {
 
     @Override
     protected void populate() {
-        adb.notifyDataSetChanged();
+        if (adb.getList().size()==0)
+            pb.call();
+        else
+            adb.notifyDataSetChanged();
     }
 
     @Override
@@ -104,8 +122,48 @@ public class MainActivity extends CustomActivity {
         }
     }
 
-    private class Receiver extends BroadcastReceiver {
+    @Override
+    public void onPostBoyConnecting() throws PostBoyException {
 
+    }
+
+    @Override
+    public void onPostBoyAsyncConnected(String json, int responseCode) throws PostBoyException {
+        ItemsParser parser = new ItemsParser(json);
+        if (parser.getResponseCode()==200) {
+            ActiveAndroid.beginTransaction();
+            try {
+                List<ItemData> items =  parser.getItems();
+                for(ItemData item : items) {
+                    item.setSync(true);
+                    item.save();
+                }
+                ActiveAndroid.setTransactionSuccessful();
+            }finally {
+                ActiveAndroid.endTransaction();
+            }
+        }
+
+        adb.getList().clear();
+        adb.getList().addAll(new Select().from(ItemData.class).execute());
+    }
+
+    @Override
+    public void onPostBoyConnected(String json, int responseCode) throws PostBoyException {
+        adb.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPostBoyConnectionFailure() throws PostBoyException {
+
+    }
+
+    @Override
+    public void onPostBoyError(PostBoyException e) {
+        Log.e(TAG, "onPostBoyError: " + e.toString());
+    }
+
+    private class Receiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             repopulate();
