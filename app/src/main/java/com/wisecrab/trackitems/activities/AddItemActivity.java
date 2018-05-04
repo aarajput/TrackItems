@@ -145,7 +145,10 @@ public class AddItemActivity extends CustomActivity implements ImageSelectorHelp
                         startJob = true;
                     itemData.save();
                     if (startJob)
+                    {
                         ((CustomApplication)this.getApplicationContext()).getNetworkJobManager().add(new UploadItemsJob(this));
+                        Toast.makeText(this, "Syncing to cloud in background", Toast.LENGTH_SHORT).show();
+                    }
                     Intent i = new Intent();
                     i.putExtra(CommonConstants.ITEM_ID,itemData.getId());
                     this.setResult(RESULT_OK,i);
